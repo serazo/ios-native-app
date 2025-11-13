@@ -8,6 +8,11 @@ import { ref, computed } from 'vue'
 export const useUserStore = defineStore('user', () => {
     const count = ref(localStorage.getItem('count') ? parseInt(localStorage.getItem('count')!) : 0)
     const name = ref('Santiago Erazo')
+    const registro = ref({
+        nombre: null,
+        email: null,
+        password: null
+    })
     const authToken = ref<string | null>(localStorage.getItem('authToken')) || null
     function $sumar() {
         count.value++;
@@ -19,5 +24,5 @@ export const useUserStore = defineStore('user', () => {
         console.log(token);
         return token;
     }
-    return { count, name, authToken, $sumar, $setAuthToken }
+    return { count, name, authToken, $sumar, $setAuthToken, registro }
 })
