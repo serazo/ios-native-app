@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import axiosRiksiri from '../axios/axiosRiksiri';
 
 // You can name the return value of `defineStore()` anything you want,
 // but it's best to use the name of the store and surround it with `use`
@@ -13,6 +14,10 @@ export const useUserStore = defineStore('user', () => {
         email: null,
         password: null
     })
+    const login = ref({
+        username: null,
+        password: null
+    })  
     const authToken = ref<string | null>(localStorage.getItem('authToken')) || null
     function $sumar() {
         count.value++;
@@ -24,5 +29,11 @@ export const useUserStore = defineStore('user', () => {
         console.log(token);
         return token;
     }
-    return { count, name, authToken, $sumar, $setAuthToken, registro }
+    function $login() {
+        return axiosRiksiri.post('login', login.value)
+            .then(response => {
+                return response
+            });
+        }
+    return { count, name, authToken, $sumar, $setAuthToken, registro, login, $login }
 })
