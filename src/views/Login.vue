@@ -14,13 +14,13 @@
 
     <ion-content class="ion-padding">
     <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="email"></ion-input>
+        <ion-label position="floating">Usuario</ion-label>
+        <ion-input type="text" v-model="userStore.login.username"></ion-input>
     </ion-item>
 
     <ion-item>
         <ion-label position="floating">Password</ion-label>
-        <ion-input type="password"></ion-input>
+        <ion-input type="password" v-model="userStore.login.password"></ion-input>
     </ion-item>
 
     <ion-button expand="block" @click="login()">Login</ion-button>
@@ -40,7 +40,11 @@ const router = useRouter();
 
 function login() {
     // Implement login logic here
-    userStore.$setAuthToken('dummy-token'); // Example token
-    router.push('/tabs/tab1'); // Redirect to tabs page after login
+    userStore.$login().then((res) => {
+        userStore.$setAuthToken(res.data.token);
+        router.push('/tabs/tab1');
+    }).catch((err) => {
+        alert(err.response.data.message)
+    });     
 }   
 </script>
