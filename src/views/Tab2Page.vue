@@ -36,12 +36,8 @@
 
 <script setup lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonAvatar, IonRow, IonCol } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
-import { useUserStore } from '@/stores/user';
-import { ref } from 'vue';  
 import { useChuckNorrisStore } from '@/stores/chuckNorris'; 
 
-const userStore = useUserStore();
 const chuckNorrisFact = useChuckNorrisStore();
 
 function llamarAlApi() {

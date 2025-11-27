@@ -2,10 +2,13 @@
     <ion-page>
         <ion-header>
         <ion-toolbar>
-            <ion-title>Login</ion-title>
-            <ion-buttons slot="end">
-          <ion-button @click="router.push('/registro')"> Registrarse </ion-button>
-        </ion-buttons>
+                        <ion-buttons slot="start">
+                            <ion-button @click="router.push('/')"> Inicio </ion-button>
+                        </ion-buttons>
+                        <ion-title>Login</ion-title>
+                        <ion-buttons slot="end">
+                            <ion-button @click="router.push('/registro')"> Registrarse </ion-button>
+                        </ion-buttons>
         </ion-toolbar>
     </ion-header>
 
