@@ -1,15 +1,18 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue';
+import BaseLayout from '@/layouts/BaseLayout.vue';
 import { useUserStore } from '@/stores/user';
 
 const Login = () => import('@/views/Login.vue');
 const Registro = () => import('@/views/Registro.vue');
+const Seccion1 = () => import('@/views/secciones/Seccion1.vue');
+const Seccion2 = () => import('@/views/secciones/Seccion2.vue');
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/tab1'
+    redirect: '/seccion'
   },
   {
     path: '/login',
@@ -42,6 +45,25 @@ const routes: Array<RouteRecordRaw> = [
         path: 'tab3',
         component: () => import('@/views/Tab3Page.vue')
       }
+    ]
+  },
+  {
+    path: '/seccion',
+    component: BaseLayout,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        redirect: '/seccion/seccion1'
+      },
+      {
+        path: 'seccion1',
+        component: Seccion1
+      },
+      {
+        path: 'seccion2',
+        component: () => Seccion2
+      },
     ]
   }
 ]
