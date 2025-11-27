@@ -9,7 +9,12 @@ const Registro = () => import('@/views/Registro.vue');
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/tab1'
+    redirect: '/welcome'
+  },
+  {
+    path: '/welcome',
+    component: () => import('@/views/Welcome.vue'),
+    meta: { requiresAuth: false }
   },
   {
     path: '/login',
