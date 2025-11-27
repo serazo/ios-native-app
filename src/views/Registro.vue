@@ -7,20 +7,41 @@
     </ion-header>
     <ion-content class="ion-padding">
     <ion-item>
-        <ion-label position="floating">Nombre</ion-label>
+        
         <ion-input 
             type="text" 
-            v-model="userStore.registro.nombre"
-            @blur="v$.nombre.$touch"
+            label="Usuario"
+            label-placement="floating"
+            fill="solid"
+            v-model="userStore.registro.usuario"
+            error-text="Invalid email"
+            @ionBlur="v$.usuario.$touch"
         ></ion-input>
+        
+        
+    </ion-item>
+    <ion-item v-if="v$.usuario.$errors.length">
+        <ion-text 
+            color="danger"      
+        >El nombre de usuario es obligatorio</ion-text>
     </ion-item>
     <ion-item>
         <ion-label position="floating">Email</ion-label>
         <ion-input type="email" v-model="userStore.registro.email"></ion-input>
     </ion-item>
+    <ion-item v-if="v$.email.$errors.length">
+        <ion-text 
+            color="danger"     
+        >El correo con formato es obligatorio</ion-text>
+    </ion-item>
     <ion-item>
         <ion-label position="floating">Password</ion-label>
         <ion-input type="password" v-model="userStore.registro.password"></ion-input>
+    </ion-item>
+    <ion-item v-if="v$.password.$errors.length">
+        <ion-text 
+            color="danger"     
+        >El password debe contener al menos 6 caracteres</ion-text>
     </ion-item>
     <ion-item>
         <ion-label position="floating">Confirmar Password</ion-label>
@@ -39,7 +60,7 @@
 </template>
 <script setup lang="ts">
 import { IonPage, IonHeader, 
-IonToolbar, IonTitle, IonContent, IonButton, IonItem, IonLabel, IonInput, IonAlert } from '@ionic/vue';
+IonToolbar, IonTitle, IonContent, IonButton, IonItem, IonLabel, IonInput, IonAlert, IonText } from '@ionic/vue';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
 import useVuelidate from '@vuelidate/core';
@@ -51,7 +72,7 @@ const alertButtons = ['Listo!'];
 
 const rules = computed(() => {
     return {
-        nombre: { 
+        usuario: { 
             required
         },
         email: { 
@@ -76,6 +97,13 @@ async function registrarse() {
     }  
 
     // Implement login logic here
-    alert('registrado');
+    userStore.$registro().then((res) => {
+        console.log(res);
+        const alert = document.querySelector('ion-alert');
+        alert?.present();
+        router.push('/login');
+    }).catch((err) => {
+        alert(err.response.data.message)
+    }); 
 }   
 </script>

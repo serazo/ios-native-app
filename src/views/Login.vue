@@ -38,7 +38,8 @@ const router = useRouter();
 function login() {
     // Implement login logic here
     userStore.$login().then((res) => {
-        console.log(res.data);
+        userStore.$setAuthToken(res.data.token);
+        router.push('/tabs/tab1');
     }).catch((err) => {
         alert(err.response.data.message)
     });     

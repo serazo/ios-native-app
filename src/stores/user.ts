@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', () => {
     const count = ref(localStorage.getItem('count') ? parseInt(localStorage.getItem('count')!) : 0)
     const name = ref('Santiago Erazo')
     const registro = ref({
-        nombre: null,
+        usuario: null,
         email: null,
         password: null
     })
@@ -26,7 +26,6 @@ export const useUserStore = defineStore('user', () => {
     function $setAuthToken(token: string | null) {
         authToken.value = token;
         localStorage.setItem('authToken', token ? token : '');
-        console.log(token);
         return token;
     }
     function $login() {
@@ -35,5 +34,11 @@ export const useUserStore = defineStore('user', () => {
                 return response
             });
         }
-    return { count, name, authToken, $sumar, $setAuthToken, registro, login, $login }
+    function $registro() {
+        return axiosRiksiri.post('register', registro.value)
+            .then(response => {
+                return response
+            });     
+    }
+    return { count, name, authToken, $sumar, $setAuthToken, registro, login, $login, $registro }
 })
