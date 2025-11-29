@@ -22,7 +22,6 @@
               <template v-if="chuckNorrisFact.data">
                 <ion-avatar>
                   <img  alt="Silhouette of a person's head" :src="chuckNorrisFact.data.icon_url" />
-                  
                 </ion-avatar>
                 <p>{{ chuckNorrisFact.data.value }}</p>
               </template>

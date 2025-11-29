@@ -62,7 +62,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'seccion2',
-        component: () => Seccion2
+        component:  Seccion2
       },
     ]
   }

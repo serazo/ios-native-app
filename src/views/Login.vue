@@ -2,13 +2,13 @@
     <ion-page>
         <ion-header>
         <ion-toolbar>
-                        <ion-buttons slot="start">
-                            <ion-button @click="router.push('/')"> Inicio </ion-button>
-                        </ion-buttons>
-                        <ion-title>Login</ion-title>
-                        <ion-buttons slot="end">
-                            <ion-button @click="router.push('/registro')"> Registrarse </ion-button>
-                        </ion-buttons>
+            <ion-buttons slot="start">
+                <ion-button @click="router.push('/')"> Inicio </ion-button>
+            </ion-buttons>
+            <ion-title>Login</ion-title>
+            <ion-buttons slot="end">
+                <ion-button @click="router.push('/registro')"> Registrarse </ion-button>
+            </ion-buttons>
         </ion-toolbar>
     </ion-header>
 
@@ -20,7 +20,7 @@
 
     <ion-item>
         <ion-label position="floating">Password</ion-label>
-        <ion-input type="password" v-model="userStore.login.password"></ion-input>
+        <ion-input type="password" v-model="userStore.login.password" @keyup.enter="login()"></ion-input>
     </ion-item>
 
     <ion-button expand="block" @click="login()">Login</ion-button>
@@ -32,7 +32,7 @@
 </template>
 <script setup lang="ts">
 import { IonPage, IonHeader, 
-IonToolbar, IonTitle, IonContent, IonButton, IonItem, IonLabel, IonInput } from '@ionic/vue';
+IonToolbar, IonTitle, IonContent, IonButton, IonButtons, IonItem, IonLabel, IonInput } from '@ionic/vue';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
 const userStore = useUserStore();  
@@ -40,9 +40,8 @@ const router = useRouter();
 
 function login() {
     // Implement login logic here
-    userStore.$login().then((res) => {
-        userStore.$setAuthToken(res.data.token);
-        router.push('/tabs/tab1');
+    userStore.$login().then(() => {
+        router.push('/seccion');
     }).catch((err) => {
         alert(err.response.data.message)
     });     

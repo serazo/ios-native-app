@@ -1,42 +1,59 @@
 <template>
-  <ion-menu content-id="main-content">
-    <ion-header>
-      <ion-toolbar color="tertiary">
-        <ion-title>Menu Content</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
+  <ion-page>
+    <ion-menu content-id="main-content">
+      <ion-header>
+        <ion-toolbar color="tertiary">
+          <ion-title>Menu Content</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
         <ion-list id="inbox-list">
-            <ion-list-header>Inbox</ion-list-header>
-            <ion-note>hi@ionicframework.com</ion-note>
-
-            <ion-menu-toggle :auto-hide="false" v-for="(p, i) in appPages" :key="i">
-                <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
-                <ion-icon aria-hidden="true" slot="start" :ios="p.iosIcon" :md="p.mdIcon"></ion-icon>
-                <ion-label>{{ p.title }}</ion-label>
-                </ion-item>
-            </ion-menu-toggle>
+          <ion-item>
+            <ion-avatar aria-hidden="true" slot="start">
+              <img alt="User" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            </ion-avatar>
+            <ion-label>{{ userStore.user.usuario }}</ion-label>
+            <ion-button slot="end" @click="cerrarSesion">Salir</ion-button>
+          </ion-item>
+          <ion-accordion-group>
+            <ion-accordion v-for="(menu, index) in userStore.menu" :key="index">
+              <ion-item slot="header" color="light">
+                <ion-label><i :class="menu.icon"></i> {{ menu.name }}</ion-label>
+              </ion-item>
+              <div class="ion-padding" slot="content">
+                <ion-menu-toggle :auto-hide="true" v-for="(p, i) in menu.sub" :key="i">
+                  <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
+                  <ion-label>{{ p.name }}</ion-label>
+                  </ion-item>
+                </ion-menu-toggle>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group> 
         </ion-list>
-    </ion-content>
-  </ion-menu>
-  <ion-page id="main-content">
+      </ion-content>
+    </ion-menu>
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Menu</ion-title>
+        <ion-title>Riksiri</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding"> 
+    <ion-content class="ion-padding" id="main-content"> 
         <ion-router-outlet></ion-router-outlet>    
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const userStore = useUserStore();
+// aquí es donde se iomportan las funciones y componentes necesarios 
 import { ref } from 'vue';
-import { IonButtons, IonContent, IonHeader, IonMenu, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonButtons, IonContent, IonHeader, IonMenu, IonMenuButton, IonPage, IonTitle, IonToolbar, IonAvatar, IonButton, IonAccordionGroup, IonAccordion } from '@ionic/vue';
 import {
 IonApp,
 IonIcon,
@@ -69,42 +86,33 @@ warningSharp,
 const selectedIndex = ref(0);
 const appPages = [
     {
-    title: 'Inbox',
+    title: 'Sección 1',
     url: '/seccion/seccion1',
     iosIcon: mailOutline,
     mdIcon: mailSharp,
     },
     {
-    title: 'Outbox',
+    title: 'Sección 2',
     url: '/seccion/seccion2',
     iosIcon: paperPlaneOutline,
     mdIcon: paperPlaneSharp,
     },
-    {
-    title: 'Favorites',
-    url: '/folder/Favorites',
-    iosIcon: heartOutline,
-    mdIcon: heartSharp,
-    },
-    {
-    title: 'Archived',
-    url: '/folder/Archived',
-    iosIcon: archiveOutline,
-    mdIcon: archiveSharp,
-    },
-    {
-    title: 'Trash',
-    url: '/folder/Trash',
-    iosIcon: trashOutline,
-    mdIcon: trashSharp,
-    },
-    {
-    title: 'Spam',
-    url: '/folder/Spam',
-    iosIcon: warningOutline,
-    mdIcon: warningSharp,
-    },
 ];
+
+async function cerrarSesion() {
+  if(confirm('Seguro desea cerrar sesión?')){
+    await userStore.$patch(
+      { 
+        user: {},
+        authToken: null
+      }
+    );
+    sessionStorage.clear();
+    localStorage.clear();
+    router.push('/login');
+  }
+  
+}
 </script>
 
 <style scoped>

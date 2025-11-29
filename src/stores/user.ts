@@ -7,8 +7,7 @@ import axiosRiksiri from '../axios/axiosRiksiri';
 // and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
 export const useUserStore = defineStore('user', () => {
-    const count = ref(localStorage.getItem('count') ? parseInt(localStorage.getItem('count')!) : 0)
-    const name = ref('Santiago Erazo')
+
     const registro = ref({
         usuario: null,
         email: null,
@@ -19,18 +18,21 @@ export const useUserStore = defineStore('user', () => {
         password: null
     })  
     const authToken = ref<string | null>(localStorage.getItem('authToken')) || null
-    function $sumar() {
-        count.value++;
-        localStorage.setItem('count', count.value.toString()); 
-    }
-    function $setAuthToken(token: string | null) {
-        authToken.value = token;
-        localStorage.setItem('authToken', token ? token : '');
-        return token;
+    const user = ref(JSON.parse(localStorage.getItem('user') || '{}')) || null
+    const menu = ref(JSON.parse(localStorage.getItem('menu') || '[]')) || []
+    function $setLogin(data: any | null) {
+        authToken.value = data.token;
+        localStorage.setItem('authToken', data.token ? data.token : '');
+        user.value = data.user;
+        localStorage.setItem('user', data.user ? JSON.stringify(data.user) : '');
+        console.log(data.user);
+        menu.value = data.menu;
+        localStorage.setItem('menu', data.menu ? JSON.stringify(data.menu) : '');
     }
     function $login() {
         return axiosRiksiri.post('login', login.value)
             .then(response => {
+                $setLogin(response.data);
                 return response
             });
         }
@@ -40,5 +42,5 @@ export const useUserStore = defineStore('user', () => {
                 return response
             });     
     }
-    return { count, name, authToken, $sumar, $setAuthToken, registro, login, $login, $registro }
+    return { authToken, registro, login, user, menu, $login, $registro }
 })
