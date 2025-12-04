@@ -7,7 +7,7 @@ import { useUserStore } from '@/stores/user';
 const Login = () => import('@/views/Login.vue');
 const Registro = () => import('@/views/Registro.vue');
 const Seccion1 = () => import('@/views/secciones/Seccion1.vue');
-const Seccion2 = () => import('@/views/secciones/Seccion2.vue');
+const Seccion = () => import('@/views/secciones/Seccion.vue');
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -61,8 +61,12 @@ const routes: Array<RouteRecordRaw> = [
         component: Seccion1
       },
       {
-        path: 'seccion2',
-        component:  Seccion2
+        path: ':name',
+        name: "seccion",
+        component:  Seccion,
+        meta: {
+          title: 'Riksiri - Sección',
+        }
       },
     ]
   }
@@ -79,7 +83,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login');
   } else if(isAuthenticated && !to.meta.requiresAuth) {
-    next('/tabs/tab1');
+    next('/seccion/seccion1');
   } else {
     next();
   }

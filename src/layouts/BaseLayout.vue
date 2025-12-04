@@ -22,7 +22,7 @@
               </ion-item>
               <div class="ion-padding" slot="content">
                 <ion-menu-toggle :auto-hide="true" v-for="(p, i) in menu.sub" :key="i">
-                  <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
+                  <ion-item @click="selectedIndex = i" router-direction="root" :router-link="'/'+p.url" lines="none" :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
                   <ion-label>{{ p.name }}</ion-label>
                   </ion-item>
                 </ion-menu-toggle>

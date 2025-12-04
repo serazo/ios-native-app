@@ -1,14 +1,20 @@
 import { defineStore } from 'pinia'
 import {computed, ref} from 'vue'
-
+import axiosRiksiri from '../axios/axiosRiksiri';
 
 export const useContentStore = defineStore('content', () => {
-  let menu = JSON.parse(sessionStorage.getItem('MENU'))
 
-  const home = sessionStorage.getItem('HOME')
+  const contenido = ref({});
+  const encuestas = ref([]);
+  const contenido_usuario = ref(null);  
 
-  function $setMenu() {
-
+  function $getContenido( name: string ) {  
+    return axiosRiksiri.get('contenido/' + name)
+      .then(response => {
+        contenido.value = response.data.contenido;
+        encuestas.value = response.data.encuestas;
+        contenido_usuario.value = response.data.contenido_usuario;
+      });
   }
-  return { menu, home, $setMenu }
+  return { $getContenido, contenido, encuestas, contenido_usuario }
 })
