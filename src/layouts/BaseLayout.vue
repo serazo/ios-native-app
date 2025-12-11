@@ -84,20 +84,6 @@ warningSharp,
 } from 'ionicons/icons';
 
 const selectedIndex = ref(0);
-const appPages = [
-    {
-    title: 'Sección 1',
-    url: '/seccion/seccion1',
-    iosIcon: mailOutline,
-    mdIcon: mailSharp,
-    },
-    {
-    title: 'Sección 2',
-    url: '/seccion/seccion2',
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp,
-    },
-];
 
 async function cerrarSesion() {
   if(confirm('Seguro desea cerrar sesión?')){

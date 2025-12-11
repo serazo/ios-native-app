@@ -4,7 +4,9 @@ import axiosRiksiri from '../axios/axiosRiksiri';
 
 export const useContentStore = defineStore('content', () => {
 
-  const contenido = ref({});
+  const contenido = ref({
+    to: null,
+  });
   const encuestas = ref([]);
   const contenido_usuario = ref(null);  
 
