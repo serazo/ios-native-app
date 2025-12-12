@@ -1,8 +1,16 @@
 <template>
   <div v-html="contenido.contenido"></div>
   <div v-if="contenido.youtube" class="video-container">
-      <embed :src="'https://www.youtube.com/v/' + contenido.youtube.replace('https://youtu.be/', '')"
-        pluginspage="http://adobe.com/go/getflashplayer" type="application/x-shockwave-flash" quality="high" width="450" height="376" bgcolor="#ffffff" loop="false"/>
+    <iframe 
+      width="560" 
+      height="315" 
+      :src="'https://www.youtube.com/embed/'+contenido.youtube.replace('https://youtu.be/', '')" 
+      title="YouTube video player" 
+      frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+      referrerpolicy="strict-origin-when-cross-origin" 
+      allowfullscreen>
+    </iframe>
   </div>
 </template>
     
