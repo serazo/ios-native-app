@@ -37,8 +37,8 @@ const router = useRouter();
 
 function login() {
     // Implement login logic here
-    userStore.$login().then(() => {
-        router.push('/seccion');
+    userStore.$login().then((res) => {
+        router.push(res.home.url);
     }).catch((err) => {
         alert(err.response.data.message)
     });     

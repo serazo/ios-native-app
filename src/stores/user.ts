@@ -25,22 +25,22 @@ export const useUserStore = defineStore('user', () => {
         localStorage.setItem('authToken', data.token ? data.token : '');
         user.value = data.user;
         localStorage.setItem('user', data.user ? JSON.stringify(data.user) : '');
-        console.log(data.user);
         menu.value = data.menu;
         localStorage.setItem('menu', data.menu ? JSON.stringify(data.menu) : '');
+        return data;
     }
     function $login() {
         return axiosRiksiri.post('login', login.value)
             .then(response => {
                 $setLogin(response.data);
-                return response
+                return response.data;
             });
         }
     function $registro() {
         return axiosRiksiri.post('register', registro.value)
             .then(response => {
-                return response
+                return response.data
             });     
     }
-    return { authToken, registro, login, user, menu, $login, $registro }
+    return { authToken, registro, login, user, menu, $login, $registro, $setLogin }
 })
